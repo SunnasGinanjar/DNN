@@ -1,0 +1,103 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
+
+def train(lr,activation1,activation2,activation3,activation4,dropout):
+    # BreastSample_normal_vs_cancer dataset
+    dataset = pd.read_csv("BreastSample_normal_vs_cancer_v1.csv", delimiter=",")
+    dataset.head()
+    dataset.describe()
+    dataset['label'].value_counts()
+    # split into input (X) and output (Y) variables
+    X = dataset.iloc[:,0:16].values
+    Y = dataset.iloc[:,17].values
+    X
+    Y
+    # data transform
+    from sklearn.preprocessing import MinMaxScaler
+
+    scaler = MinMaxScaler()
+    X_transform = scaler.fit_transform(X)
+    import keras
+    from keras.models import Sequential
+    from keras.layers import Dense, Dropout
+    from keras import optimizers
+    from sklearn.model_selection import StratifiedKFold
+    # fix random seed for reproducibility
+    seed = 10
+    np.random.seed(seed)
+
+    # define 10-fold cross validation test harness
+    kfold = StratifiedKFold(n_splits=10, shuffle=True, random_state=seed)
+    cvscores = []
+    spec_list = []
+    sens_list = []
+    for train, test in kfold.split(X, Y):
+
+        model = Sequential()
+        model.add(Dense(200, input_dim=16, activation=activation1))
+        model.add(Dropout(dropout))
+        model.add(Dense(200, activation=activation2))
+        model.add(Dropout(dropout))
+        model.add(Dense(200, activation=activation3))
+        model.add(Dropout(dropout))
+        model.add(Dense(200, activation=activation4))
+        model.add(Dropout(dropout))
+        model.add(Dense(1, activation='sigmoid'))
+
+        # Compile model
+        sgd = optimizers.SGD(lr=lr, decay=1e-6, momentum=0.9, nesterov=True)
+        model.compile(loss='binary_crossentropy', optimizer=sgd, metrics=['accuracy'])
+
+        # Fit the model
+        model.fit(X_transform[train], Y[train], epochs=150, batch_size=10, verbose=0)
+
+        # predict data test from model
+        yhat = model.predict(X_transform[test])
+        yhat = (yhat>0.5)
+
+        # confusion matrix
+        tn, fp, fn, tp = confusion_matrix(Y[test], yhat).ravel()
+
+        # evaluate the model
+        scores = model.evaluate(X_transform[test], Y[test], verbose=0)
+        specifity = tn/(tn+fp) * 100
+        sensitivity = tp/(tp+fn) * 100
+
+        # print("scores:",scores)
+        print("specificity:",specifity)
+        print("sensitivity:",sensitivity)
+        print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
+        cvscores.append(scores[1] * 100)
+        spec_list.append(specifity)
+        sens_list.append(sensitivity)
+        # print("%.2f%% (+/- %.2f%%)" % (np.mean(cvscores), np.mean(spec_list), np.mean(sens_list)))
+    return np.mean(cvscores), np.mean(spec_list), np.mean(sens_list)
+    
+
+# for train, test in kfold.split(X, Y):
+
+#     model = Sequential()
+#     model.add(Dense(200, input_dim=311, activation='elu'))
+#     model.add(Dropout(0.3))
+#     model.add(Dense(200, activation='elu'))
+#     model.add(Dropout(0.3))
+#     model.add(Dense(200, activation='elu'))
+#     model.add(Dropout(0.3))
+#     model.add(Dense(1, activation='sigmoid'))
+
+#     # Compile model
+#     sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+#     model.compile(loss='binary_crossentropy', optimizer=sgd, metrics=['accuracy'])
+
+#     # Fit the model
+#     model.fit(X_transform[train], Y[train], epochs=150, batch_size=10, verbose=0)
+
+#     # evaluate the model
+#     scores = model.evaluate(X_transform[test], Y[test], verbose=0)
+#     print("scores:",scores)
+#     print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
+#     cvscores.append(scores[1] * 100)
+#     return scores2[1]*100
+# print("%.2f%% (+/- %.2f%%)" % (np.mean(cvscores), np.std(cvscores)))

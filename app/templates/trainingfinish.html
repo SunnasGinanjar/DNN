@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DNN Breast Cancer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800" rel="stylesheet">
+    <link rel="stylesheet" href="static/baru/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="static/baru/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/baru/css/magnific-popup.css">
+    <link rel="stylesheet" href="static/baru/css/jquery-ui.css">
+    <link rel="stylesheet" href="static/baru/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="static/baru/css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="static/baru/css/bootstrap-datepicker.css">
+
+    <link rel="stylesheet" href="static/baru/fonts/flaticon/font/flaticon.css">
+
+    <link rel="stylesheet" href="static/baru/css/aos.css">
+    <link rel="stylesheet" href="static/baru/css/rangeslider.css">
+
+    <link rel="stylesheet" href="static/baru/css/style.css">
+    
+  </head>
+
+  <script type="text/javascript" src="static/sweetalert-master/docs/assets/sweetalert/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7"></script>
+
+  <body>
+  
+  <div class="site-wrap">
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    
+    <header class="site-navbar container py-0 bg-white" role="banner">
+      <!-- <div class="container"> -->   
+    </header>
+
+    <div class="site-blocks-cover overlay" style="background-color:#00BFFF;" data-aos="fade" data-stellar-background-ratio="0.5">
+      <div class="container">
+        <div class="row align-items-center justify-content-center text-center">
+
+          <div class="col-md-10" data-aos="fade-up" data-aos-delay="400">
+            
+            
+            <div class="row justify-content-center mt-5">
+              <div class="col-md-8 text-center">
+                <h1>Proses Selesai</h1>
+              </div>
+            </div>
+              <form action="/">
+                  <div class="form-search-wrap text-center" data-aos="fade-up" data-aos-delay="200">
+                    <h5 style="color:white">Akurasi: {{acc}}</h5>
+                    <h5 style="color:white">Spesifisitas: {{spec}}</h5>
+                    <h5 style="color:white">Sensitivitas: {{sens}}</h5>
+                    <input type="submit" style="margin-top: 10px" value="Kembali ke Halaman Utama" class="btn btn-warning py-2 px-4 text-white" formaction="/" >
+                  </div>
+              </form>
+            </div>           
+          </div>
+        </div>
+      </div>
+    </div>  
+
+  <script src="static/baru/js/jquery-3.3.1.min.js"></script>
+  <script src="static/baru/js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="static/baru/js/jquery-ui.js"></script>
+  <script src="static/baru/js/popper.min.js"></script>
+  <script src="static/baru/js/bootstrap.min.js"></script>
+  <script src="static/baru/js/owl.carousel.min.js"></script>
+  <script src="static/baru/js/jquery.stellar.min.js"></script>
+  <script src="static/baru/js/jquery.countdown.min.js"></script>
+  <script src="static/baru/js/jquery.magnific-popup.min.js"></script>
+  <script src="static/baru/js/bootstrap-datepicker.min.js"></script>
+  <script src="static/baru/js/aos.js"></script>
+  <script src="static/baru/js/rangeslider.min.js"></script>
+
+  <script src="static/baru/js/main.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-23581568-13');
+</script>
+
+<!--===============================================================================================-->
+  <script src="static/trainingcustomlearningrate/js/main.js"></script>
+
+  <script>
+    function validateForm() {
+        var x = document.forms["form_training"]["learning_rate"].value;
+        var y = document.forms["form_training"]["step"].value;
+        var fupTrain = document.getElementById('input_train_csv');
+      var fileNameTrain = fupTrain.value;
+      var extTrain = fileNameTrain.substring(fileName.lastIndexOf('.') + 1);
+      var fupTest = document.getElementById('input_test_csv');
+      var fileNameTest = fupTest.value;
+      var extTrain = fileNameTest.substring(fileName.lastIndexOf('.') + 1);
+        if (x == "") {
+            alert("Learning rate belum ditentukan");
+            return false;
+        }
+        else if (y == "") {
+            alert("Step belum ditentukan");
+            return false;
+        }
+     //    else if(fileNameTrain == "" ){
+      //  alert("Format file salah atau file belum diupload");
+     //        return false;
+      // }else if(fileNameTest == "" ){
+      //  alert("Format file salah atau file belum diupload");
+     //        return false;
+      // }
+      else{
+          trainingLoading();
+          return true;
+        }
+    }
+    
+    function trainingLoading1 (){
+      swal({ 
+          title: "Proses Training",
+          imageUrl: 'static/loading/loading.gif',
+          allowOutsideClick: false,
+          allowEscapeKey: false, 
+          showConfirmButton: false,
+          // confirmButtonText: 'Buka Tensorboard',
+          
+        })
+      // .then(function(isOk){
+      //    if(isOk){
+      //      window.open('http://DESKTOP-JSH12RC:6006', '_blank');
+      //    }
+      // }).then(()=> {
+      //  this.trainingLoading1();
+      // })
+       
+          // swal({
+          //  closeOnClickOutside: false,
+          //  closeOnEsc: false,
+          //  title: 'Proses Training',
+          //  showCancelButton: false,
+          //  showLoading: true,
+          //  closeModal: false,
+          //  icon: "info",
+          //  buttons: {
+          //    text: "Buka Tensorboard",
+          //    visible: false,
+          //  },
+                
+          // }).then(
+          //  function(isOk){
+          //    if(isOk){
+          //      window.open('http://desktop-jsh12rc/6006', '_blank');
+                    
+          //      }
+          //    }
+          // ).then(()=> {
+          //  this.trainingLoading1();
+          // })
+  
+    
+    }
+    
+    function sendRequest(){
+      $(document).ready(function (e) {
+       $("#form_training").on('submit',(function(e) {
+        e.preventDefault();
+        trainingLoading();
+        $.ajax({
+         url: "/starttraining",
+         type: "POST",
+         data:  new FormData(this),
+         contentType: false,
+               cache: false,
+         processData:false,
+         beforeSend : function()
+         {
+            
+         },
+         success: function(data)
+          {
+       
+            },
+           error: function(e) 
+            {
+          $("#err").html(e).fadeIn();
+            }          
+          });
+       }));
+      });
+    }
+  
+  
+  
+  </script>
+  </body>
+</html>

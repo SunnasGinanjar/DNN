@@ -1,0 +1,88 @@
+<head>
+    <title>DNN Breast Cancer</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+  </head>
+  <script type="text/javascript" src="static/sweetalert-master/docs/assets/sweetalert/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7">
+  </script>
+<body style="background-color:#00BFFF;">
+	<div class="container">
+	  <div class="row">
+	  	<div class="col-md-12" style="height:10px;">
+	  	</div>
+	    <div class="col-md-12">
+	    	<div class="panel panel-default">
+	    		<div class="panel-heading">
+	    			<h4>Dataset Micro-RNA Kanker Payudara</h4>
+	    		</div>
+	    		<form action="/">
+                    <input type="submit" style="margin-top: 10px" value="Kembali ke Halaman Utama" class="btn btn-warning py-2 px-4 text-white" formaction="/" >
+              </form>
+	    		
+	    		<div class="panel-body table-responsive">
+	    			<table id="dataset" class="display" style="width:100%">
+				        <thead>
+				            <tr>
+				                <th>hsa-mir-10b</th>
+				                <th>hsa-mir-21</th>
+				                <th>hsa-mir-30a</th>
+				                <th>hsa-mir-92a-1</th>
+				                <th>hsa-mir-92a-2</th>
+				                <th>hsa-mir-125b-1</th>
+				                <th>hsa-mir-125b-2</th>
+				                <th>hsa-mir-141</th>
+				                <th>hsa-mir-145</th>
+				                <th>hsa-mir-200a</th>
+				                <th>hsa-mir-200b</th>
+				                <th>hsa-mir-155</th>
+				                <th>hsa-mir-191</th>
+				                <th>hsa-mir-203a</th>
+				                <th>hsa-mir-203b</th>
+				                <th>hsa-mir-210</th>
+				                <th>hsa-mir-373</th>
+				                <th>Label</th>
+				            </tr>
+				        </thead>
+				        <tfoot>
+				            <tr>
+				                <th>hsa-mir-10b</th>
+				                <th>hsa-mir-21</th>
+				                <th>hsa-mir-30a</th>
+				                <th>hsa-mir-92a-1</th>
+				                <th>hsa-mir-92a-2</th>
+				                <th>hsa-mir-125b-1</th>
+				                <th>hsa-mir-125b-2</th>
+				                <th>hsa-mir-141</th>
+				                <th>hsa-mir-145</th>
+				                <th>hsa-mir-200a</th>
+				                <th>hsa-mir-200b</th>
+				                <th>hsa-mir-155</th>
+				                <th>hsa-mir-191</th>
+				                <th>hsa-mir-203a</th>
+				                <th>hsa-mir-203b</th>
+				                <th>hsa-mir-210</th>
+				                <th>hsa-mir-373</th>
+				                <th>Label</th>
+				            </tr>
+				        </tfoot>
+				    </table>
+	    		</div>
+	    	</div>
+	    </div>
+	  </div>
+	</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- DataTables -->
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#dataset').DataTable( {
+        "ajax": '{{ url_for("api_dataset") }}',
+        "ordering": false,
+        "searching": false
+      } );
+  } );
+</script>
